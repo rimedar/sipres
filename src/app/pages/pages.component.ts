@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingService } from '../services/settings/setting.service';
+
+declare function init_plugins();
 
 @Component({
   selector: 'app-pages',
@@ -8,9 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PagesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ajustes: SettingService) { }
 
   ngOnInit(): void {
+    console.log('Cargado');
+    // this.ajustes.cargarAjustes();
+    init_plugins();
   }
 
 }
