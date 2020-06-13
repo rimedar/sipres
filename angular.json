@@ -7,48 +7,19 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "changeDetection": "Default",
-          "entryComponent": false,
-          "export": false,
-          "flat": false,
-          "inlineStyle": false,
-          "inlineTemplate": false,
-          "module": "",
-          "prefix": "",
-          "selector": "",
-          "skipImport": false,
-          "style": "css",
-          "viewEncapsulation": "Emulated",
-          "skipTests": true
-        },
-        "@schematics/angular:module": {
-          "commonModule": true,
-          "flat": false,
-          "module": "",
-          "routing": false,
-          "routingScope": "Child"
-        },
-        "@schematics/angular:service": {
-          "flat": true,
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "export": false,
-          "flat": true,
-          "module": "",
-          "skipImport": false,
-          "skipTests": true
-        },
-        "@schematics/angular:directive": {
-          "export": false,
-          "flat": true,
-          "module": "",
-          "prefix": "app",
-          "selector": "",
-          "skipImport": false,
+          "style": "scss",
           "skipTests": true
         },
         "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
           "skipTests": true
         }
       },
