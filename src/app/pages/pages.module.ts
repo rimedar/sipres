@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 
@@ -39,6 +39,7 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     PagesRoutingModule,
     FormsModule,
     ChartsModule,
+    HttpClientModule
    ],
 })
 export class PagesModule { }

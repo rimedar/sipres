@@ -17,8 +17,17 @@ export class BreadcrumbsComponent implements OnInit {
     private meta: Meta
   ) {
 
-    this.getDataRoute()
-      .subscribe(data => {
+    this.getDataRoute();
+  }
+
+  ngOnInit(): void {}
+
+  getDataRoute() {
+    this.router.events.pipe(
+      filter((evento) => evento instanceof ActivationEnd),
+      filter((evento: ActivationEnd) => evento.snapshot.firstChild === null),
+      map((evento: ActivationEnd) => evento.snapshot.data)
+    ).subscribe(data => {
         this.titulo = data.titulo;
         this.title.setTitle(this.titulo);
         const metaTag: MetaDefinition = {
@@ -27,25 +36,5 @@ export class BreadcrumbsComponent implements OnInit {
         };
         this.meta.updateTag(metaTag);
       });
-    // this.getDataRoute().subscribe((data) => {
-    //   this.titulo = data.titulo;
-    //   this.title.setTitle(this.titulo);
-    // });
-    // const metaTag: MetaDefinition = {
-    //   name: 'descripción',
-    //   content: this.titulo,
-    // };
-
-    // this.meta.updateTag(metaTag);
-  }
-
-  ngOnInit(): void {}
-
-  getDataRoute() {
-    return this.router.events.pipe(
-      filter((evento) => evento instanceof ActivationEnd),
-      filter((evento: ActivationEnd) => evento.snapshot.firstChild === null),
-      map((evento: ActivationEnd) => evento.snapshot.data)
-    );
   }
 }
