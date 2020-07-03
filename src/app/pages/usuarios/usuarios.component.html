@@ -1,0 +1,118 @@
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input type="text"
+          #input
+          (keyup)="buscarUsuario(input.value)"
+          name="busqueda"
+          pattern="[a-zA-Z0-9]{15}"
+          class="form-control"
+          placeholder="Buscar usuario..." 
+          required
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+  <div class="col-sm-12">
+    <div class="alert alert-warning text-center">
+      <strong>Cargando</strong>
+      <br />
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <br />
+      <span>Espere por favor</span>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          Usuarios registrados ( <small>{{ usuarios.length }}</small> )
+        </h3>
+        
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Indice</th>
+              <th>Imagen</th>
+              <th>Correo</th>
+              <th>Nombre</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
+              <td>
+                <!-- {{ i+1 + paginaActual }} -->
+                {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
+              </td>
+              <td class="w70">
+                <svg
+                  class="img-50 img-circle bi bi-person-circle"
+                  width="4em"
+                  height="4em"
+                  viewBox="0 0 18 18"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  alt="Usuario"
+                >
+                  <path
+                    d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"
+                  />
+                </svg>
+              </td>
+              <td>
+                {{ usuario.correo }}
+              </td>
+              <td>{{ usuario.nombre }}</td>
+              <td>
+                <!-- {{ usuario.role }} -->
+                <select [(ngModel)]='usuario.role' name='role' class='form-control'>
+                  <option *ngFor="let role of roles">{{role}}</option>
+                </select>
+              </td>
+              <!-- <td>
+                <label *ngIf="usuario.google" class="label label-danger"
+                  >Google</label
+                >
+                <label *ngIf="!usuario.google" class="label label-info"
+                  >Normal</label
+                >
+              </td> -->
+              <td>
+                <button
+                  (click)="guardarUsuario(usuario)"
+                  class="btn btn-primary"
+                >
+                  <i class="fa fa-save"></i>
+                </button>
+
+                <button (click)="borrarUsuario(usuario)" class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="paginaActual = $event" previousLabel="Anterior"
+        nextLabel="Siguiente" ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input type="text"
+          #input
+          (keyup)="buscarPrestamo(input.value, $event)"
+          class="form-control"
+          placeholder="Buscar prestamo..."
+          name="busqueda"
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+  <div class="col-sm-12">
+    <div class="alert alert-warning text-center">
+      <strong>Cargando</strong>
+      <br />
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <br />
+      <span>Espere por favor</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <!-- <div class="text-right">
+          <button (click)="crearPrestamo()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
+            <i class="fa fa-plus"></i>
+            Crear Expediente
+          </button>
+        </div> -->
+
+        <h3 class="card-title">
+          Prestamos registrados ( <small> {{ prestamos.length }} </small> )
+        </h3>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Indice</th>
+              <th>Estado del prestamo</th>
+              <th>Fecha del prestamo</th>
+              <th>Expediente</th>
+              <th>Usuario</th>
+              <th>Liberar Prestamo</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let prestamo of prestamos | paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
+              <td>
+                <!-- {{ i+1 + paginaActual }} -->
+                {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
+              </td>
+              <td>
+                {{ prestamo.estado }}
+                <input [(ngModel)]="prestamo.estado" name="estado" type="text" class="form-control" placeholder="Estado del prestamo">
+              </td>
+              <td>
+                {{ prestamo.fecha_prestamo }}
+                <input [(ngModel)]="prestamo.fecha_prestamo" name="fecha_prestamo" type="text" class="form-control" placeholder="Fecha de prestamo">
+              </td>
+              <td>
+                {{ prestamo.id_exp.id_expediente }}
+                <input [(ngModel)]="prestamo.id_exp.id_expediente" name="id_exp" type="text" class="form-control" placeholder="ID del expedinete">
+
+              </td>
+              <td>
+                {{ prestamo.id_usuario.nombre }}
+                <input [(ngModel)]="prestamo.id_usuario.nombre" name="id_usuario" type="text" class="form-control" placeholder="ID de usuario">
+
+              </td>
+              <td>
+                <button (click)="liberarPrestamo(prestamo)" class="btn btn-info">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-square-o fa-stack-2x"></i>
+                    <i class="fa fa-exchange fa-stack-1x"></i>
+                  </span>
+                </button>
+              </td>
+              <!-- <td *ngIf="prestamo.prestado; else showThis">
+                Prestado
+              </td>
+              <ng-template #showThis>      
+                  Disponible
+              </ng-template>
+              
+              <td>
+                <button (click)="guardarPrestamo(prestamo)" class="btn btn-primary">
+                  <i class="fa fa-save"></i>
+                </button>
+
+                <button (click)="borrarExpediente(prestamo)" class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="paginaActual = $event" previousLabel="Anterior"
+        nextLabel="Siguiente" ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

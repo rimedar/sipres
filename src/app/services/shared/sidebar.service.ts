@@ -13,10 +13,16 @@ export class SidebarService {
       icono: 'mdi mdi-gauge',
       submenu: [
         { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'ProgressBar', url: '/progress' },
-        { titulo: 'Graficos', url: '/graficas1' },
-        { titulo: 'Promesas', url: '/promesas' },
-        { titulo: 'RxJs Component', url: '/rxjs' },
+      ]
+    },
+    {
+      titulo: 'Gestión de prestamos',
+      icono: 'mdi mdi-folder-lock-open',
+      submenu: [
+        { titulo: 'Usuarios', url: '/usuarios' },
+        { titulo: 'Expedientes', url: '/expedientes' },
+        { titulo: 'Prestamos', url: '/prestamos' },
+        { titulo: 'Historico de Prestamos', url: '/historial-prestamos' }
       ]
     }
   ];

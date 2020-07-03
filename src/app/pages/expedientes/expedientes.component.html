@@ -1,0 +1,110 @@
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input type="text"
+          #input
+          (keyup)="buscarExpediente(input.value, $event)"
+          class="form-control"
+          placeholder="Buscar expediente..."
+          name="busqueda"
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+  <div class="col-sm-12">
+    <div class="alert alert-warning text-center">
+      <strong>Cargando</strong>
+      <br />
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <br />
+      <span>Espere por favor</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-right">
+          <button (click)="crearExpediente()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
+            <i class="fa fa-plus"></i>
+            Crear Expediente
+          </button>
+        </div>
+
+        <h3 class="card-title">
+          Expedientes registrados ( <small> {{ expedientes.length }} </small> )
+        </h3>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Indice</th>
+              <th>ID</th>
+              <th>Cédula del Solicitante</th>
+              <th>Nombre del Solicitante</th>
+              <th>Nombre del Predio</th>
+              <th>Tomos</th>
+              <th>Estado de Prestamo</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let expediente of expedientes| paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
+              <td>
+                <!-- {{ i+1 + paginaActual }} -->
+                {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
+              </td>
+              <td>
+                {{ expediente.id_expediente }}
+                <input [(ngModel)]="expediente.id_expediente" name="id_expediente" type="text" class="form-control" placeholder="ID del expediente">
+              </td>
+              <td>
+                {{ expediente.cc_solocitante }}
+                <input [(ngModel)]="expediente.cc_solocitante" name="cc_solicitante" type="text" class="form-control" placeholder="Cédula del solitante">
+              </td>
+              <td>
+                {{ expediente.nombre_solicitante }}
+                <input [(ngModel)]="expediente.nombre_solicitante" name="nombre_solicitante" type="text" class="form-control" placeholder="Cédula del solitante">
+
+              </td>
+              <td>
+                {{ expediente.nombre_predio }}
+                <input [(ngModel)]="expediente.nombre_predio" name="nombre_predio" type="text" class="form-control" placeholder="Cédula del solitante">
+
+              </td>
+              <td>
+                {{ expediente.tomos }}
+              </td>
+              <td *ngIf="expediente.prestado; else showThis">
+                Prestado
+              </td>
+              <ng-template #showThis>      
+                  Disponible
+              </ng-template>
+              
+              <td>
+                <button (click)="guardarExpediente(expediente)" class="btn btn-primary">
+                  <i class="fa fa-save"></i>
+                </button>
+
+                <button (click)="borrarExpediente(expediente)" class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="paginaActual = $event" previousLabel="Anterior"
+        nextLabel="Siguiente" ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

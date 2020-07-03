@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "adminpro": {
+    "sipres": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -30,7 +30,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/adminpro",
+            "outputPath": "dist/sipres",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -79,18 +79,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "adminpro:build"
+            "browserTarget": "sipres:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "adminpro:build:production"
+              "browserTarget": "sipres:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "adminpro:build"
+            "browserTarget": "sipres:build"
           }
         },
         "test": {
@@ -127,15 +127,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "adminpro:serve"
+            "devServerTarget": "sipres:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "adminpro:serve:production"
+              "devServerTarget": "sipres:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "adminpro"
+  "defaultProject": "sipres"
 }

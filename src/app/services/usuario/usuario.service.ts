@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Usuario } from '../../models/usuario.model';
+import { Usuario } from '../../models/usuario.interface';
 import { URL_SERVICIOS } from '../../config/config';
 
 import { Router } from '@angular/router';
@@ -8,15 +8,14 @@ import { map } from 'rxjs/operators';
 import swal from 'sweetalert2';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
   usuario: Usuario;
   token: string;
+  id: string;
 
-  constructor( public http: HttpClient,
-               public router: Router)
-  {
+  constructor(public http: HttpClient, public router: Router) {
     console.log('Servicio listo');
     this.cargarStorage();
   }
@@ -27,22 +26,20 @@ export class UsuarioService {
   // }
 
   cargarStorage() {
-
-    if ( localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
-      this.usuario = JSON.parse( localStorage.getItem('usuario') );
+      this.id = localStorage.getItem('id');
+      this.usuario = JSON.parse(localStorage.getItem('usuario'));
     } else {
       this.token = '';
       this.usuario = null;
     }
-
   }
 
-  guardarStorage( id: string, token: string, usuario: Usuario ) {
-
-    localStorage.setItem('id', id );
-    localStorage.setItem('token', token );
-    localStorage.setItem('usuario', JSON.stringify(usuario) );
+  guardarStorage(id: string, token: string, usuario: Usuario) {
+    localStorage.setItem('id', id);
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(usuario));
 
     this.usuario = usuario;
     this.token = token;
@@ -59,52 +56,97 @@ export class UsuarioService {
     this.router.navigate(['/login']);
   }
 
-  loginGoogle( token: string ) {
-
+  loginGoogle(token: string) {
     const url = URL_SERVICIOS + '/login/google';
 
-    return this.http.post( url, { token } ).pipe(
-                map( (resp: any) => {
-                  this.guardarStorage( resp.id, resp.token, resp.usuario );
-                  return true;
-                }));
-
-
+    return this.http.post(url, { token }).pipe(
+      map((resp: any) => {
+        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        return true;
+      })
+    );
   }
 
-  login( usuario: Usuario, recordar: boolean = false ) {
-
-    if ( recordar ) {
-      localStorage.setItem('email', usuario.email );
-    }else {
+  login(usuario: Usuario, recordar: boolean = false) {
+    if (recordar) {
+      localStorage.setItem('email', usuario.correo);
+    } else {
       localStorage.removeItem('email');
     }
 
     const url = URL_SERVICIOS + '/login';
-    return this.http.post( url, usuario ).pipe(
-                map( (resp: any) => {
-
-                  this.guardarStorage( resp.id, resp.token, resp.usuario );
-                  console.log(resp);
-                  return true;
-                }));
-
+    return this.http.post(url, usuario).pipe(
+      map((resp: any) => {
+        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        console.log(resp);
+        return true;
+      })
+    );
   }
 
+  cargarUsuarios() {
+    const url = URL_SERVICIOS + '/usuario';
+    return this.http.get(url);
+  }
 
-  crearUsuario( usuario: Usuario ) {
-
+  crearUsuario(usuario: Usuario) {
     const url = URL_SERVICIOS + '/usuario';
 
-    return this.http.post( url, usuario ).pipe(
-              map( (resp: any) => {
-
-                swal.fire({ title: 'Usuario creado', text: usuario.email, icon: 'success' });
-                return resp.usuario;
-                console.log(resp);
-              }));
+    return this.http.post(url, usuario).pipe(
+      map((resp: any) => {
+        swal.fire({
+          title: 'Usuario creado',
+          text: usuario.correo,
+          icon: 'success',
+        });
+        return resp.usuario;
+      })
+    );
   }
 
+  buscarUsuarios(termino: string) {
+    const url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino;
+    return this.http.get(url).pipe(
+      map((resp: any) => {
+        return resp.usuarios;
+      })
+    );
+  }
 
+  actualizarUsuario(usuario: Usuario) {
+    let url = URL_SERVICIOS + '/usuario/' + usuario._id;
+    url += '?token=' + this.token;
 
+    return this.http.put(url, usuario).pipe(
+      map((resp: any) => {
+        if (usuario._id === this.usuario._id) {
+          const usuarioDB: Usuario = resp.usuario;
+          this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+        }
+
+        swal.fire({
+          title: 'Usuario Actualizado',
+          text: usuario.nombre,
+          icon: 'success',
+        });
+        return true;
+      })
+    );
+  }
+
+  borrarUsuario(id: string) {
+    let url = URL_SERVICIOS + '/usuario/' + id;
+    url += '?token=' + this.token;
+
+    return this.http.delete(url).pipe(
+      map((resp) => {
+        swal.fire({
+          title: 'Usuario Borrado',
+          text: 'El usuario se ha eliminado correctamente',
+          icon: 'success',
+        });
+        return true;
+      })
+    );
+  }
 }

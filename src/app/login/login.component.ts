@@ -1,8 +1,9 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Usuario } from '../models/usuario.model';
+import { Usuario } from '../models/usuario.interface';
 import { UsuarioService } from '../services/usuario/usuario.service';
+// import { Usuario } from '../models/usuario.model';
 
 declare function init_plugins();
 // declare const gapi: any;
@@ -13,7 +14,7 @@ declare function init_plugins();
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
+  usuario: Usuario;
   email: string;
   recuerdame: boolean = false;
 
@@ -74,9 +75,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const usuario = new Usuario(null, forma.value.email, forma.value.password );
+    // const usuario = new Usuario(null, forma.value.email, forma.value.password );
+    this.usuario = {
+      nombre: null,
+      correo: forma.value.email,
+      password: forma.value.password
+    };
 
-    this.usuarioService.login(usuario, forma.value.recuerdame)
+    this.usuarioService.login(this.usuario, forma.value.recuerdame)
       .subscribe(rest => {
         this.router.navigate(['/dashboard']);
         console.log(rest);

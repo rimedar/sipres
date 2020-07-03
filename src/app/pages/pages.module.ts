@@ -9,32 +9,30 @@ import { PagesComponent } from './pages.component';
 import { PagesRoutingModule } from './pages-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProgressComponent } from './progress/progress.component';
-import { Graficas1Component } from './graficas1/graficas1.component';
-import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
-import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { PromesasComponent } from './promesas/promesas.component';
-import { RxjsComponent } from './rxjs/rxjs.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { CommonModule } from '@angular/common'; // Para poder usar NgIf y otros
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ExpedientesComponent } from './expedientes/expedientes.component';
+import { PrestamosComponent } from './prestamos/prestamos.component';
+import { HistorialPrestamosComponent } from './historial-prestamos/historial-prestamos.component'; // Para la paginacion de datos
 
 @NgModule({
   declarations: [
     PagesComponent,
     DashboardComponent,
-    ProgressComponent,
-    Graficas1Component,
-    IncrementadorComponent,
-    GraficoDonaComponent,
     AccountSettingsComponent,
-    PromesasComponent,
-    RxjsComponent
+    UsuariosComponent,
+    ExpedientesComponent,
+    PrestamosComponent,
+    HistorialPrestamosComponent
   ],
   exports: [
     DashboardComponent,
-    ProgressComponent,
-    Graficas1Component,
   ],
   imports: [
+    NgxPaginationModule,
+    CommonModule,
     SharedModule,
     PagesRoutingModule,
     FormsModule,
