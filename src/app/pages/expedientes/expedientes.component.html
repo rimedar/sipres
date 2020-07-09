@@ -31,7 +31,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <div class="text-right">
+        <div class="text-right" *ngIf="usuarioService.usuario.role!='MISIONAL'">
           <button (click)="crearExpediente()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
             <i class="fa fa-plus"></i>
             Crear Expediente
@@ -42,63 +42,77 @@
           Expedientes registrados ( <small> {{ expedientes.length }} </small> )
         </h3>
 
-        <table class="table table-hover">
+        <table class="table table-hover table-sm">
           <thead>
             <tr>
-              <th>Indice</th>
+              <th>Índice</th>
               <th>ID</th>
               <th>Cédula del Solicitante</th>
               <th>Nombre del Solicitante</th>
               <th>Nombre del Predio</th>
               <th>Tomos</th>
-              <th>Estado de Prestamo</th>
+              <th>Estado de Préstamo</th>
               <th></th>
             </tr>
           </thead>
 
           <tbody>
             <tr *ngFor="let expediente of expedientes| paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
-              <td>
+              <td >
                 <!-- {{ i+1 + paginaActual }} -->
                 {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
               </td>
-              <td>
+              <td >
                 {{ expediente.id_expediente }}
-                <input [(ngModel)]="expediente.id_expediente" name="id_expediente" type="text" class="form-control" placeholder="ID del expediente">
+                <div class="col-xs-2">
+                <input *ngIf="usuarioService.usuario.role=='ADMIN'; else noEnter" [(ngModel)]="expediente.id_expediente" name="id_expediente" type="text" class="form-control form-control-sm" placeholder="ID del expediente">
+              </div>
               </td>
               <td>
                 {{ expediente.cc_solocitante }}
-                <input [(ngModel)]="expediente.cc_solocitante" name="cc_solicitante" type="text" class="form-control" placeholder="Cédula del solitante">
+                <input *ngIf="usuarioService.usuario.role=='ADMIN'; else noEnter" [(ngModel)]="expediente.cc_solocitante" name="cc_solicitante" type="text" class="form-control form-control-sm" placeholder="Cédula del solitante">
               </td>
               <td>
                 {{ expediente.nombre_solicitante }}
-                <input [(ngModel)]="expediente.nombre_solicitante" name="nombre_solicitante" type="text" class="form-control" placeholder="Cédula del solitante">
+                <input *ngIf="usuarioService.usuario.role=='ADMIN'; else noEnter" [(ngModel)]="expediente.nombre_solicitante" name="nombre_solicitante" type="text" class="form-control form-control-sm" placeholder="Cédula del solitante">
 
               </td>
               <td>
                 {{ expediente.nombre_predio }}
-                <input [(ngModel)]="expediente.nombre_predio" name="nombre_predio" type="text" class="form-control" placeholder="Cédula del solitante">
+                <input *ngIf="usuarioService.usuario.role=='ADMIN'; else noEnter" [(ngModel)]="expediente.nombre_predio" name="nombre_predio" type="text" class="form-control form-control-sm" placeholder="Cédula del solitante">
 
               </td>
               <td>
-                {{ expediente.tomos }}
+                <div class="row d-flex justify-content-center">
+                 {{ expediente.tomos }}
+                </div>
               </td>
-              <td *ngIf="expediente.prestado; else showThis">
-                Prestado
+              <td *ngIf="expediente.prestado  ; else showThis">
+                <div class="row d-flex justify-content-center">Prestado</div>
               </td>
               <ng-template #showThis>      
-                  Disponible
+                  <div class="row d-flex justify-content-center">Disponible
+                  </div>
+                  <div *ngIf="usuarioService.usuario.role=='MISIONAL'; else noEnter" class="row d-flex justify-content-center">
+                  <button (click)="guardarPrestamo(expediente)" class="btn btn-outline-success btn-sm">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                  </div>
               </ng-template>
               
-              <td>
-                <button (click)="guardarExpediente(expediente)" class="btn btn-primary">
+              <td *ngIf="usuarioService.usuario.role=='ADMIN'; else noEnter" >
+                <button (click)="guardarExpediente(expediente)" class="btn btn-outline-primary ">
                   <i class="fa fa-save"></i>
                 </button>
 
-                <button (click)="borrarExpediente(expediente)" class="btn btn-danger">
+                <button (click)="borrarExpediente(expediente)" class="btn btn-outline-danger ">
                   <i class="fa fa-trash-o"></i>
                 </button>
               </td>
+              <ng-template #noEnter>      
+                <div class="row d-flex justify-content-center">
+                </div>
+              </ng-template>
             </tr>
           </tbody>
         </table>

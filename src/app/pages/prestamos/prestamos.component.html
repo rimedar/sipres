@@ -2,18 +2,13 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <input type="text"
-          #input
-          (keyup)="buscarPrestamo(input.value, $event)"
-          class="form-control"
-          placeholder="Buscar prestamo..."
-          name="busqueda"
-        >
+        <input type="text" #input (keyup)="buscarPrestamo(input.value, $event)" class="form-control"
+          placeholder="Buscar préstamo..." name="busqueda">
       </div>
     </div>
   </div>
 </div>
-
+<!-- *ngIf="usuarioService.usuario._id=='ADMIN'; else noEnter3"  -->
 <div class="row animated fadeIn" *ngIf="cargando">
   <div class="col-sm-12">
     <div class="alert alert-warning text-center">
@@ -31,82 +26,119 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <!-- <div class="text-right">
-          <button (click)="crearPrestamo()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
-            <i class="fa fa-plus"></i>
-            Crear Expediente
-          </button>
-        </div> -->
-
-        <h3 class="card-title">
-          Prestamos registrados ( <small> {{ prestamos.length }} </small> )
+        <h3 class="card-title" *ngIf="usuarioService.usuario.role === 'MISIONAL'; else registrados">
+          Tus préstamos registrados ( <small> {{ prestamosFiltro }} </small> )
         </h3>
+        <ng-template #registrados>
+            <h3 class="card-title">
+              Préstamos registrados ( <small> {{ prestamos.length }} </small> )
+            </h3>
+        </ng-template>
 
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Indice</th>
-              <th>Estado del prestamo</th>
-              <th>Fecha del prestamo</th>
+              <th>Índice</th>
+              <th>Estado del Préstamo</th>
+              <th>Fecha del Préstamo</th>
               <th>Expediente</th>
               <th>Usuario</th>
-              <th>Liberar Prestamo</th>
+              <th>Liberar Préstamo</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let prestamo of prestamos | paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
-              <td>
-                <!-- {{ i+1 + paginaActual }} -->
-                {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
-              </td>
-              <td>
-                {{ prestamo.estado }}
-                <input [(ngModel)]="prestamo.estado" name="estado" type="text" class="form-control" placeholder="Estado del prestamo">
-              </td>
-              <td>
-                {{ prestamo.fecha_prestamo }}
-                <input [(ngModel)]="prestamo.fecha_prestamo" name="fecha_prestamo" type="text" class="form-control" placeholder="Fecha de prestamo">
-              </td>
-              <td>
-                {{ prestamo.id_exp.id_expediente }}
-                <input [(ngModel)]="prestamo.id_exp.id_expediente" name="id_exp" type="text" class="form-control" placeholder="ID del expedinete">
+            <tr
+              *ngFor="let prestamo of prestamos | paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
+              <ng-container *ngIf="usuarioService.usuario.role ==='MISIONAL'; else elseBlock">
 
-              </td>
-              <td>
-                {{ prestamo.id_usuario.nombre }}
-                <input [(ngModel)]="prestamo.id_usuario.nombre" name="id_usuario" type="text" class="form-control" placeholder="ID de usuario">
+                <ng-container *ngIf='usuarioService.usuario._id === prestamo.id_usuario._id; else elseBlock2'>
 
-              </td>
-              <td>
-                <button (click)="liberarPrestamo(prestamo)" class="btn btn-info">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-square-o fa-stack-2x"></i>
-                    <i class="fa fa-exchange fa-stack-1x"></i>
-                  </span>
-                </button>
-              </td>
-              <!-- <td *ngIf="prestamo.prestado; else showThis">
-                Prestado
-              </td>
-              <ng-template #showThis>      
-                  Disponible
+                  <td>
+                    {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
+                  </td>
+                  <td>
+                    {{ prestamo.estado_prestamo }}
+                    <input [(ngModel)]="prestamo.estado_prestamo" name="estado" type="text" class="form-control"
+                      placeholder="Estado del prestamo">
+                  </td>
+                  <td>
+                    {{ prestamo.fecha_prestamo }}
+                    <input [(ngModel)]="prestamo.fecha_prestamo" name="fecha_prestamo" type="text" class="form-control"
+                      placeholder="Fecha de prestamo">
+                  </td>
+                  <td>
+                    {{ prestamo.id_exp.id_expediente }}
+                    <input [(ngModel)]="prestamo.id_exp.id_expediente" name="id_exp" type="text" class="form-control"
+                      placeholder="ID del expedinete">
+                  </td>
+                  <td>
+                    {{ prestamo.id_usuario.nombre }}
+                    <input [(ngModel)]="prestamo.id_usuario.nombre" name="id_usuario" type="text" class="form-control"
+                      placeholder="ID de usuario">
+                  </td>
+                  <td>
+                    <button (click)="liberarPrestamo(prestamo)" class="btn btn-outline-info">
+                      <span class="fa-stack fa-lg">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-exchange fa-stack-1x"></i>
+                      </span>
+                    </button>
+                  </td>
+
+                </ng-container>
+
+              </ng-container>
+
+              <ng-template #elseBlock2>
+                <div class="row d-flex justify-content-center">
+                  
+                </div>
               </ng-template>
-              
-              <td>
-                <button (click)="guardarPrestamo(prestamo)" class="btn btn-primary">
-                  <i class="fa fa-save"></i>
-                </button>
 
-                <button (click)="borrarExpediente(prestamo)" class="btn btn-danger">
-                  <i class="fa fa-trash-o"></i>
-                </button>
-              </td> -->
+              <ng-template #elseBlock>
+                <ng-container *ngIf="usuarioService.usuario.role !='MISIONAL'">
+                  <td>
+                    <!-- {{ i+1 + paginaActual }} -->
+                    {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
+                  </td>
+                  <td>
+                    {{ prestamo.estado_prestamo }}
+                    <input [(ngModel)]="prestamo.estado_prestamo" name="estado" type="text" class="form-control"
+                      placeholder="Estado del prestamo">
+                  </td>
+                  <td>
+                    {{ prestamo.fecha_prestamo }}
+                    <input [(ngModel)]="prestamo.fecha_prestamo" name="fecha_prestamo" type="text" class="form-control"
+                      placeholder="Fecha de prestamo">
+                  </td>
+                  <td>
+                    {{ prestamo.id_exp.id_expediente }}
+                    <input [(ngModel)]="prestamo.id_exp.id_expediente" name="id_exp" type="text" class="form-control"
+                      placeholder="ID del expedinete">
+                  </td>
+                  <td>
+                    {{ prestamo.id_usuario.nombre }}
+                    <input [(ngModel)]="prestamo.id_usuario.nombre" name="id_usuario" type="text" class="form-control"
+                      placeholder="ID de usuario">
+                  </td>
+                  <td>
+                    <button (click)="liberarPrestamo(prestamo)" class="btn btn-outline-info">
+                      <span class="fa-stack fa-lg">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-exchange fa-stack-1x"></i>
+                      </span>
+                    </button>
+                  </td>
+
+                </ng-container>
+              </ng-template>
             </tr>
+            
           </tbody>
         </table>
-        <pagination-controls (pageChange)="paginaActual = $event" previousLabel="Anterior"
-        nextLabel="Siguiente" ></pagination-controls>
+        <pagination-controls (pageChange)="paginaActual = $event" previousLabel="Anterior" nextLabel="Siguiente">
+        </pagination-controls>
       </div>
     </div>
   </div>

@@ -5,3 +5,7 @@
 .pointer{
   cursor: pointer;
 }
+body {
+  /* el tamaño por defecto es 14px */
+  font-size: 14px;
+}

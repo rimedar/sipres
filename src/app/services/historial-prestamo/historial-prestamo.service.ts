@@ -31,7 +31,7 @@ export class HistorialPrestamoService {
 
   guardarHistorialPrestamo( prestamo: HistorialPrestamo) {
 
-    let url = URL_SERVICIOS + '/prestamo';
+    let url = URL_SERVICIOS + '/historial-prestamo';
 
     url += '?token=' + this.usuarioService.token;
     return this.http.post(url, prestamo).pipe(
@@ -43,6 +43,14 @@ export class HistorialPrestamoService {
         });
         return resp.prestamo;
       }));
-    }
+  }
+
+  buscarHistoricoPrestamos( termino: string ) {
+
+    const url = URL_SERVICIOS + '/busqueda/coleccion/historico-prestamos/' + termino;
+    return this.http.get(url).pipe(
+      map((resp: any) => resp.prestamos));
+
+  }
 
 }

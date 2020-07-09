@@ -39,8 +39,8 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Indice</th>
-              <th>Imagen</th>
+              <th>Índice</th>
+              <!-- <th>Imagen</th> -->
               <th>Correo</th>
               <th>Nombre</th>
               <th>Role</th>
@@ -54,7 +54,7 @@
                 <!-- {{ i+1 + paginaActual }} -->
                 {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
               </td>
-              <td class="w70">
+              <!-- <td class="w70">
                 <svg
                   class="img-50 img-circle bi bi-person-circle"
                   width="4em"
@@ -76,7 +76,7 @@
                     d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"
                   />
                 </svg>
-              </td>
+              </td> -->
               <td>
                 {{ usuario.correo }}
               </td>
@@ -96,14 +96,11 @@
                 >
               </td> -->
               <td>
-                <button
-                  (click)="guardarUsuario(usuario)"
-                  class="btn btn-primary"
-                >
+                <button (click)="guardarUsuario(usuario)" class="btn btn-outline-primary">
                   <i class="fa fa-save"></i>
                 </button>
 
-                <button (click)="borrarUsuario(usuario)" class="btn btn-danger">
+                <button (click)="borrarUsuario(usuario)" class="btn btn-outline-danger">
                   <i class="fa fa-trash-o"></i>
                 </button>
               </td>

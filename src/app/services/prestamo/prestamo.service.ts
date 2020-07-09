@@ -52,17 +52,20 @@ export class PrestamoService {
       }
 
   eliminarPrestamo(id: string) {
+      console.log('Dentro ' + id);
+
       let url = URL_SERVICIOS + '/prestamo/' + id;
       url += '?token=' + this.usuarioService.token;
-
+      console.log(url);
       return this.http.delete(url).pipe(
-        map((resp) =>
-          swal.fire({
-            title: 'Expediente Borrado',
-            text: 'Expediente eliminado correctamente',
-            icon: 'success',
-          })
-        )
-      );
+      map((resp) => {
+        console.log(resp);
+        swal.fire({
+          title: 'Expediente Borrado',
+          text: 'Expediente eliminado correctamente',
+          icon: 'success',
+        });
+      })
+    );
   }
 }

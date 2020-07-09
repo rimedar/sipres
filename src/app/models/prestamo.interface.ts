@@ -6,7 +6,7 @@ export interface Prestamo {
     // fecha_vence?: string;
     // fecha_devolucion?: string;
     id_exp: string;
-    id_usuario: boolean;
+    id_usuario: string;
     _id?: string;
 }
 

@@ -4,6 +4,13 @@ import { ExpedienteService } from '../../services/expediente/expediente.service'
 
 import swal from 'sweetalert2';
 
+import { PrestamoService } from '../../services/prestamo/prestamo.service';
+import { Prestamo } from 'src/app/models/prestamo.interface';
+import { UsuarioService } from '../../services/usuario/usuario.service';
+import { Router } from '@angular/router';
+
+const moment = require('moment');
+moment.locale('es');
 @Component({
   selector: 'app-expedientes',
   templateUrl: './expedientes.component.html',
@@ -12,17 +19,25 @@ import swal from 'sweetalert2';
 })
 export class ExpedientesComponent implements OnInit {
 
+  // hoy = moment('04/07/2020');
+  // dateSubmittedDisplay = this.fechaPrestado;
+  // nowDisplay = this.hoy;
   itemsPorPagina: number = 5;
   paginaActual: number = 1;
   cargando: boolean = true;
+  prestamo: Prestamo;
   expediente: Expediente;
   expedientes: Expediente[] = [];
   constructor(
     public expedienteService: ExpedienteService,
+    public prestamoService: PrestamoService,
+    public usuarioService: UsuarioService,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
     this.cargarExpedientes();
+    this.usuarioService.cargarStorage();
   }
 
   buscarExpediente( termino: string, event: any) {
@@ -171,6 +186,55 @@ export class ExpedientesComponent implements OnInit {
         'info'
       );
       console.log('Cancelado');
+    }
+  }
+
+  guardarPrestamo(expediente: Expediente) {
+    if (this.usuarioService.usuario ) {
+      console.log(this.usuarioService.usuario + 'kkkkk');
+      const fechaPrestado = moment().format('L');
+      swal.fire({
+      title: 'Solicitud de Prestamo',
+      text: 'Se le asignara el expediente con ID ' + expediente._id,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Aceptar!',
+      cancelButtonText: 'Cancelar'
+    })
+      .then(guardar => {
+
+        if (guardar.value) {
+          console.log(expediente._id + ' SSS ' + this.usuarioService.usuario._id);
+          // console.log(this.fechaPrestado.diff(this.hoy, 'days'), ' dias de diferencia');
+          this.prestamo = {
+            fecha_prestamo: fechaPrestado,
+            estado_prestamo: 'ACTIVO',
+            id_exp: expediente._id,
+            id_usuario: this.usuarioService.id
+          };
+          this.prestamoService.guardarPrestamo(this.prestamo)
+            .subscribe(resp => this.cargarExpedientes());
+          console.log(this.prestamo);
+        }
+        else if (
+          guardar.dismiss === swal.DismissReason.cancel
+        ) {
+          swal.fire(
+            'Cancelado',
+            'El Expediente no se le asigno',
+            'info'
+          );
+        }
+      });
+    } else {
+      swal.fire(
+        'Error',
+        'Debes volver a iniciar sesión',
+        'warning'
+      );
+      return this.router.navigate(['/login']);
     }
   }
 
