@@ -86,7 +86,8 @@ export class UsuarioService {
   }
 
   crearUsuario(usuario: Usuario) {
-    const url = URL_SERVICIOS + '/usuario';
+    let url = URL_SERVICIOS + '/usuario';
+    url += '?token=' + this.token;
 
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {

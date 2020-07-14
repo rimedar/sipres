@@ -1,3 +1,4 @@
+<div id="main-wrapper">
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->
 <header class="topbar">
@@ -35,26 +36,20 @@
       <ul class="navbar-nav mr-auto">
         <!-- This is  -->
         <li class="nav-item">
-          <a
-            class="nav-link nav-toggler hidden-md-up waves-effect waves-dark"
-            href="javascript:void(0)">
-            <i class="ti-menu"></i>
-            
+          <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)">
+            <i class="ti-menu"></i> 
           </a>
         </li>
         
         <li class="nav-item">
-          <a
-            class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark"
-            href="javascript:void(0)">
+          <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)">
             <i class="ti-menu"></i>
           </a>
         </li>
         <li class="nav-item">
-          <a 
-            class="nav-link">{{role}}</a>
-          </li>
-        <li class="nav-item hidden-sm-down"></li>
+          <a class="nav-link">{{role}}</a>
+        </li>
+        <!-- <li class="nav-item hidden-sm-down"></li> -->
       </ul>
       <!-- ============================================================== -->
       <!-- User profile -->
@@ -65,13 +60,7 @@
         <!-- Profile -->
         <!-- ============================================================== -->
         <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle waves-effect waves-dark"
-            href=""
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+          <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <svg
               class="bi bi-person-circle profile-pic"
               width="2.5em"
@@ -91,7 +80,7 @@
               />
             </svg>
           </a>
-          <div class="dropdown-menu dropdown-menu-right animated fadeIn">
+          <div class="dropdown-menu dropdown-menu-right animated fadeInY">
             <ul class="dropdown-user">
               <li>
                 <div class="dw-user-box">
@@ -124,9 +113,10 @@
                   </div>
                 </div>
               </li>
+              <li role="separator" class="divider"></li>
               <li>
                 <a routerLinkActive="active" routerLink="/account-settings">
-                  <i class="ti-settings"></i>Cambiar Tema</a>
+                  <i class="ti-settings"></i> Cambiar Tema</a>
               </li>
               <li role="separator" class="divider"></li>
               <li>
@@ -142,3 +132,4 @@
 </header>
 <!-- ============================================================== -->
 <!-- End Topbar header -->
+</div>

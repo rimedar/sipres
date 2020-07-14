@@ -21,7 +21,7 @@
     <div class="alert alert-warning text-center">
       <strong>Cargando</strong>
       <br />
-      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <i class="fa fa-spinner fa-spin fa-2x"></i>
       <br />
       <span>Espere por favor</span>
     </div>
@@ -40,7 +40,7 @@
           <thead>
             <tr>
               <th>Índice</th>
-              <!-- <th>Imagen</th> -->
+              <th>Imagen</th>
               <th>Correo</th>
               <th>Nombre</th>
               <th>Role</th>
@@ -51,10 +51,9 @@
           <tbody>
             <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: itemsPorPagina, currentPage: paginaActual };let i = index">
               <td>
-                <!-- {{ i+1 + paginaActual }} -->
                 {{ itemsPorPagina * (paginaActual - 1) + i + 1 }}
               </td>
-              <!-- <td class="w70">
+              <td class="w70">
                 <svg
                   class="img-50 img-circle bi bi-person-circle"
                   width="4em"
@@ -76,7 +75,7 @@
                     d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"
                   />
                 </svg>
-              </td> -->
+              </td>
               <td>
                 {{ usuario.correo }}
               </td>
@@ -87,14 +86,6 @@
                   <option *ngFor="let role of roles">{{role}}</option>
                 </select>
               </td>
-              <!-- <td>
-                <label *ngIf="usuario.google" class="label label-danger"
-                  >Google</label
-                >
-                <label *ngIf="!usuario.google" class="label label-info"
-                  >Normal</label
-                >
-              </td> -->
               <td>
                 <button (click)="guardarUsuario(usuario)" class="btn btn-outline-primary">
                   <i class="fa fa-save"></i>

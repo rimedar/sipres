@@ -12,6 +12,7 @@ import { PrestamosComponent } from './prestamos/prestamos.component';
 import { HistorialPrestamosComponent } from './historial-prestamos/historial-prestamos.component';
 import { AdminGuard } from '../services/guards/admin.guard';
 import { GestorGuard } from '../services/guards/gestor.guard';
+import { RegisterComponent } from './register/register.component';
 
 const pagesRoutes: Routes = [
   {
@@ -40,6 +41,12 @@ const pagesRoutes: Routes = [
         component: HistorialPrestamosComponent,
         canActivate: [GestorGuard],
         data: { titulo: 'Historial Prestamos' }
+      },
+      {
+        path: 'registro',
+        component: RegisterComponent,
+        canActivate: [AdminGuard],
+        data: { titulo: 'Registro de Usuarios' }
       },
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     ]

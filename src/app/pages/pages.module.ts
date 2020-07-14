@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { PagesComponent } from './pages.component';
@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common'; // Para poder usar NgIf y otros
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExpedientesComponent } from './expedientes/expedientes.component';
 import { PrestamosComponent } from './prestamos/prestamos.component';
-import { HistorialPrestamosComponent } from './historial-prestamos/historial-prestamos.component'; // Para la paginacion de datos
+import { HistorialPrestamosComponent } from './historial-prestamos/historial-prestamos.component';
+import { RegisterComponent } from './register/register.component'; // Para la paginacion de datos
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HistorialPrestamosComponent } from './historial-prestamos/historial-pre
     UsuariosComponent,
     ExpedientesComponent,
     PrestamosComponent,
-    HistorialPrestamosComponent
+    HistorialPrestamosComponent,
+    RegisterComponent
   ],
   exports: [
     DashboardComponent,
@@ -36,6 +38,7 @@ import { HistorialPrestamosComponent } from './historial-prestamos/historial-pre
     SharedModule,
     PagesRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     ChartsModule,
     HttpClientModule
    ],
